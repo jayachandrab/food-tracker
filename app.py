@@ -14,7 +14,7 @@ def index():
         db_date=datetime.datetime.strftime(dt,"%Y%m%d")
         dbob.execute("insert into log_date (entry_date) values (?)",[db_date])
         dbob.commit()
-    cur=dbob.execute("select log_date.entry_date,sum(food.protein) as protein,sum(food.carbohydrates) as carb,sum(food.fat) as fat,sum(food.calories) as calories from log_date join food_date on food_date.log_date_id=log_date.id join food on food.id=food_date.food_id group by log_date.id order by log_date.entry_date")
+    cur=dbob.execute("select log_date.entry_date,sum(food.protein) as protein,sum(food.carbohydrates) as carb,sum(food.fat) as fat,sum(food.calories) as calories from log_date left join food_date on food_date.log_date_id=log_date.id left join food on food.id=food_date.food_id group by log_date.id order by log_date.entry_date")
     results=cur.fetchall()
     date_result=[]
     for i in results:
